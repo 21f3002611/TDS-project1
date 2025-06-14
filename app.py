@@ -752,6 +752,16 @@ async def get_data():
         logger.error(traceback.format_exc())
         return JSONResponse(status_code=500, content={"error": str(e)})
 
+@app.get("/data")
+async def get_data():
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+    cursor.execute("SELECT content FROM markdown_chunks LIMIT 5")
+    rows = cursor.fetchall()
+    conn.close()
+    return {"data": [row[0] for row in rows]}
+
+
 @app.post("/query")
 async def query_knowledge_base(request: QueryRequest):
     ...
