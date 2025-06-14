@@ -752,6 +752,15 @@ async def get_data():
         logger.error(traceback.format_exc())
         return JSONResponse(status_code=500, content={"error": str(e)})
 
+@app.post("/query")
+async def query_knowledge_base(request: QueryRequest):
+    ...
+
+@app.get("/")
+def read_root():
+    return {"message": "Welcome to the TDS Virtual TA API. Use POST /query to submit a question."}
+
+
 
 
 
