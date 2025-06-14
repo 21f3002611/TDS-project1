@@ -731,5 +731,10 @@ async def health_check():
 async def root():
     return {"message": "TDS Virtual TA is running. Use /query or /health endpoints."}
 
+@app.api_route("/", methods=["GET", "HEAD"])
+async def root():
+    return {"message": "TDS Virtual TA is running. Use /query or /health endpoints."}
+
+
 if __name__ == "__main__":
     uvicorn.run("app:app", host="0.0.0.0", port=8000, reload=True) 
