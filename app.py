@@ -1,11 +1,13 @@
 # app.py
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
+from pydantic import BaseModel
 
 app = FastAPI()
 
 @app.get("/")
-def read_root():
-    return {"message": "TDS Virtual TA is running!"}
+def root():
+    return {"status": "healthy", "message": "TDS Virtual TA is running"}
+
 
 import os
 import json
