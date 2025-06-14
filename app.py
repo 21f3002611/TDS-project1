@@ -735,6 +735,19 @@ async def root():
 async def root():
     return {"message": "TDS Virtual TA is running. Use /query or /health endpoints."}
 
+@app.get("/data")
+async def get_data():
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute("SELECT url, content FROM markdown_chunks LIMIT 5")
+        rows = cursor.fetchall()
+        conn.close()
+        return {"data": rows}
+    except Exception as e:
+        return JSONResponse(status_code=500, content={"error": str(e)})
+
+
 
 if __name__ == "__main__":
     uvicorn.run("app:app", host="0.0.0.0", port=8000, reload=True) 
