@@ -740,14 +740,18 @@ async def get_data():
     try:
         conn = get_db_connection()
         cursor = conn.cursor()
-        cursor.execute("SELECT url, content FROM markdown_chunks LIMIT 5")
+
+        # Use the correct column names: original_url and content
+        cursor.execute("SELECT original_url, content FROM markdown_chunks LIMIT 5")
         rows = cursor.fetchall()
         conn.close()
-        return {"data": rows}
+
+        return {"data": [{"url": row[0], "content": row[1]} for row in rows]}
     except Exception as e:
         import traceback
-        logger.error(traceback.format_exc())  # Add this to log error details
+        logger.error(traceback.format_exc())
         return JSONResponse(status_code=500, content={"error": str(e)})
+
 
 
 
