@@ -771,6 +771,23 @@ def read_root():
     return {"message": "Welcome to the TDS Virtual TA API. Use POST /query to submit a question."}
 
 
+from fastapi import FastAPI
+from pydantic import BaseModel
+from fastapi.responses import JSONResponse
+import uvicorn
+
+app = FastAPI()
+
+class QueryRequest(BaseModel):
+    question: str
+    image: str | None = None  # or Optional[str]
+
+@app.post("/query")
+async def query_knowledge_base(request: QueryRequest):
+    return {"answer": "This is a sample answer.", "links": []}
+
+
+
 
 
 
