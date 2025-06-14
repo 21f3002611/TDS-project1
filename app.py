@@ -745,7 +745,10 @@ async def get_data():
         conn.close()
         return {"data": rows}
     except Exception as e:
+        import traceback
+        logger.error(traceback.format_exc())  # Add this to log error details
         return JSONResponse(status_code=500, content={"error": str(e)})
+
 
 
 
