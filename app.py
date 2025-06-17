@@ -786,6 +786,15 @@ class QueryRequest(BaseModel):
 async def query_knowledge_base(request: QueryRequest):
     return {"answer": "This is a sample answer.", "links": []}
 
+@app.get("/")
+async def root():
+    return {"message": "TDS Virtual TA is running"}
+
+@app.get("/health")
+def health_check():
+    return {"status": "healthy"}
+
+
 
 
 
