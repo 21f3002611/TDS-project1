@@ -23,7 +23,7 @@ logger = logging.getLogger(__name__)
 
 # Constants
 DB_PATH = "knowledge_base.db"
-SIMILARITY_THRESHOLD = 0.68  # Lowered threshold for better recall
+SIMILARITY_THRESHOLD = 0.50  # Lowered threshold for better recall
 MAX_RESULTS = 10  # Increased to get more context
 load_dotenv()
 MAX_CONTEXT_CHUNKS = 4  # Increased number of chunks per source
@@ -724,20 +724,5 @@ async def health_check():
             content={"status": "unhealthy", "error": str(e), "api_key_set": bool(API_KEY)}
         )
 
-# Removed for Render deployment 
-
-
-@app.get("/")
-async def root():
-    return {"message": "RAG API is running. Use POST /query to ask questions."}
-
-@app.post("/query")
-async def query_knowledge_base(request: QueryRequest):
-    pass
-
-from fastapi.responses import HTMLResponse
-
-@app.get("/", response_class=HTMLResponse)
-async def root():
-    return "<h2>✅ FastAPI is running</h2>"
-
+if __name__ == "__main__":
+    uvicorn.run("app:app", host="0.0.0.0", port=8000, reload=True) 
