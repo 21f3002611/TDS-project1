@@ -733,4 +733,5 @@ async def root():
 
 @app.post("/query")
 async def query_knowledge_base(request: QueryRequest):
+    pass
 
