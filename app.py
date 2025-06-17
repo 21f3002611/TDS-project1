@@ -730,3 +730,7 @@ async def health_check():
 @app.get("/")
 async def root():
     return {"message": "RAG API is running. Use POST /query to ask questions."}
+
+@app.post("/query")
+async def query_knowledge_base(request: QueryRequest):
+
