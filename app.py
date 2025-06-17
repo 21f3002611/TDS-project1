@@ -735,3 +735,9 @@ async def root():
 async def query_knowledge_base(request: QueryRequest):
     pass
 
+from fastapi.responses import HTMLResponse
+
+@app.get("/", response_class=HTMLResponse)
+async def root():
+    return "<h2>✅ FastAPI is running</h2>"
+
