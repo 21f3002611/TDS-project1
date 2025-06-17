@@ -1,7 +1,4 @@
 # app.py
-
-
-
 import os
 import json
 import sqlite3
@@ -726,80 +723,10 @@ async def health_check():
             status_code=500,
             content={"status": "unhealthy", "error": str(e), "api_key_set": bool(API_KEY)}
         )
-  
-@app.get("/")
-async def root():
-    return {"message": "TDS Virtual TA is running. Use /query or /health endpoints."}
 
-@app.api_route("/", methods=["GET", "HEAD"])
-async def root():
-    return {"message": "TDS Virtual TA is running. Use /query or /health endpoints."}
+# Removed for Render deployment 
 
-@app.get("/data")
-async def get_data():
-    try:
-        conn = get_db_connection()
-        cursor = conn.cursor()
-
-        # Use the correct column names: original_url and content
-        cursor.execute("SELECT original_url, content FROM markdown_chunks LIMIT 5")
-        rows = cursor.fetchall()
-        conn.close()
-
-        return {"data": [{"url": row[0], "content": row[1]} for row in rows]}
-    except Exception as e:
-        import traceback
-        logger.error(traceback.format_exc())
-        return JSONResponse(status_code=500, content={"error": str(e)})
-
-@app.get("/data")
-async def get_data():
-    conn = sqlite3.connect(DB_PATH)
-    cursor = conn.cursor()
-    cursor.execute("SELECT content FROM markdown_chunks LIMIT 5")
-    rows = cursor.fetchall()
-    conn.close()
-    return {"data": [row[0] for row in rows]}
-
-
-@app.post("/query")
-async def query_knowledge_base(request: QueryRequest):
-    ...
-
-@app.get("/")
-def read_root():
-    return {"message": "Welcome to the TDS Virtual TA API. Use POST /query to submit a question."}
-
-
-from fastapi import FastAPI
-from pydantic import BaseModel
-from fastapi.responses import JSONResponse
-import uvicorn
-
-app = FastAPI()
-
-class QueryRequest(BaseModel):
-    question: str
-    image: str | None = None  # or Optional[str]
-
-@app.post("/query")
-async def query_knowledge_base(request: QueryRequest):
-    return {"answer": "This is a sample answer.", "links": []}
 
 @app.get("/")
 async def root():
-    return {"message": "TDS Virtual TA is running"}
-
-@app.get("/health")
-def health_check():
-    return {"status": "healthy"}
-
-
-
-
-
-
-
-
-if __name__ == "__main__":
-    uvicorn.run("app:app", host="0.0.0.0", port=8000, reload=True) 
+    return {"message": "RAG API is running. Use POST /query to ask questions."}
